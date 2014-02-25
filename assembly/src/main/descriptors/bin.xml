@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<fileSets>
+
+		<!-- Expanded Karaf -->
+		<fileSet>
+			<directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
+			<outputDirectory>/</outputDirectory>
+			<excludes>
+				<exclude>bin/**</exclude>
+				<exclude>**/demos/**</exclude>
+				<exclude>etc/system.properties</exclude>
+				<exclude>etc/org.apache.karaf.features.cfg</exclude>
+				<exclude>etc/org.ops4j.pax.logging.cfg</exclude>
+				<exclude>etc/custom.properties</exclude>
+				<exclude>etc/users.properties</exclude>
+				<exclude>LICENSE</exclude>
+				<exclude>NOTICE</exclude>
+				<exclude>README</exclude>
+				<exclude>RELEASE-NOTES</exclude>
+				<exclude>karaf-manual*</exclude>
+			</excludes>
+		</fileSet>
+
+        <!-- Copy over bin/* separately to get the correct file mode -->
+        <fileSet>
+            <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>bin/admin</include>
+                <include>bin/karaf</include>
+                <include>bin/start</include>
+                <include>bin/stop</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+		
+		<!-- Copy license and other files from root -->
+		<fileSet>
+			<directory>${basedir}/..</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>README</include>
+				<include>RELEASE*</include>
+			</includes>
+			<lineEnding>unix</lineEnding>
+			<fileMode>0644</fileMode>
+		</fileSet>
+
+		<!-- Copy over jar files -->
+		<fileSet>
+			<directory>target/dependencies</directory>
+			<includes>
+				<include>${groupId}.branding.jar</include>
+			</includes>
+			<outputDirectory>/lib/</outputDirectory>
+			<fileMode>0644</fileMode>
+		</fileSet>
+
+		<!-- Copy over everything that needs to get unix line endings -->
+		<fileSet>
+			<directory>target/classes/etc</directory>
+			<outputDirectory>/etc/</outputDirectory>
+			<lineEnding>unix</lineEnding>
+			<fileMode>0644</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/distribution/etc</directory>
+			<outputDirectory>/etc/</outputDirectory>
+			<lineEnding>unix</lineEnding>
+			<fileMode>0644</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/target/features-repo</directory>
+			<outputDirectory>system</outputDirectory>
+		</fileSet>
+
+		<!-- Copy over the examples -->
+		<fileSet>
+			<directory>../examples</directory>
+			<outputDirectory>/examples/</outputDirectory>
+			<lineEnding>unix</lineEnding>
+			<excludes>
+				<exclude>**/target/**</exclude>
+			</excludes>
+		</fileSet>
+
+	</fileSets>
+	<files>
+		<file>
+			<source>${basedir}/target/classes/features.xml</source>
+			<outputDirectory>system/com/waterfall/${artifactId}/${version}</outputDirectory>
+			<destName>${artifactId}-${version}-features.xml</destName>
+			<fileMode>0644</fileMode>
+			<lineEnding>unix</lineEnding>
+		</file>
+	</files>
+
+</assembly>
