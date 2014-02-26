@@ -1,0 +1,5 @@
+rm -rf install
+mvn install -DskipTests
+tar -xvzf assembly/target/com.waterfall-karaf-1.0-bin.tar.gz
+mv com.waterfall-karaf-1.0 install
+install/bin/karaf

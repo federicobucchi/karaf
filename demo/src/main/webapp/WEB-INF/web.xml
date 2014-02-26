@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<!-- Guice Filter forwards all requests to the Guice Servlet container -->
+	<filter>
+		<filter-name>guiceFilter</filter-name>
+		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+	</filter>
+
+	<!-- Add the filter to forward all requests to Guice. This should just be 
+		/* and all further filtering should be done within the Guice Servlet configuration 
+		class. Trying to filter in both places creates resolution issues in my experience. -->
+	<filter-mapping>
+		<filter-name>guiceFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- The Guice Servlet container will trigger this configuration class as 
+		soon as the webapp is deployed. This class replaces a lot of the functionality 
+		web.xml used to do. It resolves URI requests to the appropriate servlets 
+		and filters. -->
+	<listener>
+		<listener-class>com.waterfall.sample.demo.GuiceServletConfig</listener-class>
+	</listener>
+
+</web-app>

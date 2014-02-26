@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.waterfall</groupId>
+		<artifactId>com.waterfall.sample</artifactId>
+		<version>1.0</version>
+	</parent>
+
+
+	<groupId>com.waterfall.sample</groupId>
+	<artifactId>com.waterfall.sample.demo</artifactId>
+	<name>Waterfall Sample :: Demo</name>
+	<packaging>war</packaging>
+
+
+	<dependencies>
+		<!--guice -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+
+		<!--jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-guice</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<!-- osgi -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+		
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.ops4j.pax.web</groupId>
+			<artifactId>pax-web-extender-war</artifactId>
+			<version>${paxweb.version}</version>
+		</dependency>
+		
+		<!-- logging -->
+		<dependency>
+			<groupId>org.ops4j.pax.logging</groupId>
+			<artifactId>pax-logging-api</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<!-- guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- to generate the MANIFEST-FILE required by the bundle -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.7</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<manifestLocation>${project.build.directory}/META-INF</manifestLocation>
+					<supportedProjectTypes>
+						<supportedProjectType>jar</supportedProjectType>
+						<supportedProjectType>bundle</supportedProjectType>
+						<supportedProjectType>war</supportedProjectType>
+					</supportedProjectTypes>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-ClassPath>.,WEB-INF/classes</Bundle-ClassPath>
+						<Service-Component>OSGI-INF/components/com.waterfall.sample.demo.xml</Service-Component>
+						<Import-Package>
+							*
+						</Import-Package>
+						<Private-Package>
+						</Private-Package>
+						<Export-Package>
+						</Export-Package>
+						<Webapp-Context>/</Webapp-Context>
+						<Web-ContextPath>/</Web-ContextPath>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<archive>
+						<manifestFile>${project.build.directory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

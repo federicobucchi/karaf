@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component 
+    name="com.waterfall.sample.configuration" 
+    immediate="true" 
+    modified="modified" 
+    xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0">
+    
+    <implementation class="com.waterfall.sample.configuration.ConfigurationActivator"/>
+
+    <reference name="LOG"
+        interface="org.osgi.service.log.LogService"
+        cardinality="1..1"
+        policy="static"
+    />
+    
+    <service>
+        <provide interface="com.waterfall.sample.configuration.Configurator"/>
+    </service>
+</scr:component> 
